@@ -23,6 +23,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 import java.util.Random;
+import com.swrve.sdk.SwrvePushServiceDefault;
 
 public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
@@ -43,6 +44,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             super.onNewToken(refreshedToken);
             Log.d(TAG, "Refreshed token: " + refreshedToken);
             FirebasePlugin.sendToken(refreshedToken);
+            com.swrve.sdk.SwrveSDK.setRegistrationId(refreshedToken);
         }catch (Exception e){
             FirebasePlugin.handleExceptionWithoutContext(e);
         }
@@ -70,6 +72,9 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             // and data payloads are treated as notification messages. The Firebase console always sends notification
             // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
             // [END_EXCLUDE]
+            if (!SwrvePushServiceDefault.handle(this, remoteMessage.getData())) {
+                // Execute code for other push provider
+            }
 
             // Pass the message to the receiver manager so any registered receivers can decide to handle it
             boolean wasHandled = FirebasePluginMessageReceiverManager.onMessageReceived(remoteMessage);
