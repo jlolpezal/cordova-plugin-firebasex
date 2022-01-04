@@ -7,3 +7,6 @@
 package-lock.json
 node_modules
 cordova-plugin-firebase.code-workspace
+src/android/.gradle
+src/android/.settings
+src/android/.project
