@@ -2,7 +2,7 @@
 #import "FirebasePlugin.h"
 #import "Firebase.h"
 #import <objc/runtime.h>
-
+#import <SwrveSDK/SwrveSDK.h>
 
 @import UserNotifications;
 @import FirebaseFirestore;
@@ -199,6 +199,7 @@ didDisconnectWithUser:(GIDGoogleUser *)user
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [SwrveSDK setDeviceToken:deviceToken];
     [FIRMessaging messaging].APNSToken = deviceToken;
     [FirebasePlugin.firebasePlugin _logMessage:[NSString stringWithFormat:@"didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceToken]];
     [FirebasePlugin.firebasePlugin sendApnsToken:[FirebasePlugin.firebasePlugin hexadecimalStringFromData:deviceToken]];
